@@ -1,0 +1,127 @@
+<!--
+=============================================================================
+Courses Page
+=============================================================================
+SDLC Phase: Development - curriculum display
+Shows all course modules organized by week and topic.
+=============================================================================
+-->
+
+<!-- Page Header -->
+<section class="page-header">
+    <div class="container">
+        <h1>Course Curriculum</h1>
+        <p class="page-subtitle">
+            <%= config.course.duration %> comprehensive training covering <%= modules.length %> major modules
+        </p>
+    </div>
+</section>
+
+<!-- SDLC Legend -->
+<section class="sdlc-legend section-sm">
+    <div class="container">
+        <h3>SDLC Phases Legend</h3>
+        <div class="legend-grid">
+            <% sdlcPhases.forEach(phase=> { %>
+                <div class="legend-item">
+                    <span class="legend-icon">
+                        <%= phase.icon %>
+                    </span>
+                    <span class="legend-name">
+                        <%= phase.name %>
+                    </span>
+                </div>
+                <% }); %>
+        </div>
+    </div>
+</section>
+
+<!-- Course Modules -->
+<section class="modules-section section">
+    <div class="container">
+        <div class="modules-grid">
+            <% modules.forEach((module, index)=> { %>
+                <div class="module-card" id="<%= module.id %>">
+                    <div class="module-header">
+                        <span class="module-icon">
+                            <%= module.icon %>
+                        </span>
+                        <div class="module-meta">
+                            <span class="module-duration">
+                                <%= module.duration %>
+                            </span>
+                            <span class="module-sdlc">
+                                <%= module.sdlcPhase %>
+                            </span>
+                        </div>
+                    </div>
+
+                    <h3 class="module-title">
+                        <%= module.title %>
+                    </h3>
+                    <p class="module-description">
+                        <%= module.description %>
+                    </p>
+
+                    <div class="module-topics">
+                        <h4>Topics Covered:</h4>
+                        <ul>
+                            <% module.topics.forEach(topic=> { %>
+                                <li>
+                                    <%= topic %>
+                                </li>
+                                <% }); %>
+                        </ul>
+                    </div>
+
+                    <div class="module-footer">
+                        <span class="module-number">Module <%= index + 1 %></span>
+                    </div>
+                </div>
+                <% }); %>
+        </div>
+    </div>
+</section>
+
+<!-- Learning Outcomes -->
+<section class="outcomes-section section">
+    <div class="container">
+        <h2 class="section-title">What You'll Achieve</h2>
+        <div class="outcomes-grid">
+            <div class="outcome-card">
+                <span class="outcome-icon">🏆</span>
+                <h4>Jira Administration</h4>
+                <p>Configure Jira projects, workflows, fields, screens, and permissions like a pro</p>
+            </div>
+            <div class="outcome-card">
+                <span class="outcome-icon">🔄</span>
+                <h4>CI/CD Pipelines</h4>
+                <p>Build and manage automated deployment pipelines with Bitbucket and AWS</p>
+            </div>
+            <div class="outcome-card">
+                <span class="outcome-icon">🤖</span>
+                <h4>AI Integration</h4>
+                <p>Leverage AI tools like Rovo, ChatGPT, and Claude for productivity</p>
+            </div>
+            <div class="outcome-card">
+                <span class="outcome-icon">💻</span>
+                <h4>Automation Skills</h4>
+                <p>Automate Jira tasks with Python, Ansible, n8n, and ScriptRunner</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section section">
+    <div class="container">
+        <div class="cta-card">
+            <h2>Ready to Master Jira Cloud?</h2>
+            <p>Join our <%= config.course.duration %> bootcamp and transform your career.</p>
+            <div class="cta-actions">
+                <a href="/contact" class="btn btn-primary btn-lg">Register Interest</a>
+                <a href="/schedule" class="btn btn-outline btn-lg">View Schedule</a>
+            </div>
+        </div>
+    </div>
+</section>

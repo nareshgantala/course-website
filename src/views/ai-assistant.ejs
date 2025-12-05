@@ -1,0 +1,192 @@
+<!--
+=============================================================================
+AI Assistant Page (Coming Soon)
+=============================================================================
+SDLC Phase: Development - AI integration placeholder
+Placeholder page for future LLM integration.
+=============================================================================
+-->
+
+<!-- Page Header -->
+<section class="page-header ai-header">
+    <div class="container">
+        <div class="ai-badge-large">🤖 AI Powered</div>
+        <h1>AI Assistant</h1>
+        <p class="page-subtitle">
+            <% if (anyConfigured) { %>
+                Ask questions about Jira, DevOps, and automation
+                <% } else { %>
+                    Coming Soon - AI-powered learning assistant
+                    <% } %>
+        </p>
+    </div>
+</section>
+
+<!-- AI Features -->
+<section class="ai-features section">
+    <div class="container">
+        <h2 class="section-title">What the AI Assistant Will Do</h2>
+        <div class="features-grid">
+            <% features.forEach(feature=> { %>
+                <div class="feature-card">
+                    <span class="feature-icon">
+                        <%= feature.icon %>
+                    </span>
+                    <h3>
+                        <%= feature.title %>
+                    </h3>
+                    <p>
+                        <%= feature.description %>
+                    </p>
+                </div>
+                <% }); %>
+        </div>
+    </div>
+</section>
+
+<!-- Chat Interface (Placeholder) -->
+<section class="ai-chat-section section">
+    <div class="container">
+        <div class="chat-container">
+            <div class="chat-header">
+                <h3>🤖 Bootcamp Assistant</h3>
+                <span class="chat-status">
+                    <% if (anyConfigured) { %>
+                        <span class="status-dot online"></span> Online
+                        <% } else { %>
+                            <span class="status-dot offline"></span> Coming Soon
+                            <% } %>
+                </span>
+            </div>
+
+            <div class="chat-messages" id="chatMessages">
+                <div class="message bot">
+                    <div class="message-content">
+                        <p>👋 Hello! I'm the Bootcamp Assistant.</p>
+                        <% if (anyConfigured) { %>
+                            <p>Ask me anything about Jira, DevOps, or the bootcamp curriculum!</p>
+                            <% } else { %>
+                                <p>AI integration is coming soon! In the bootcamp, you'll learn how to build assistants
+                                    like me using:</p>
+                                <ul>
+                                    <li>🟢 OpenAI ChatGPT API</li>
+                                    <li>🟣 Anthropic Claude API</li>
+                                    <li>🔵 Atlassian Rovo AI</li>
+                                </ul>
+                                <% } %>
+                    </div>
+                </div>
+            </div>
+
+            <form class="chat-input" id="chatForm">
+                <input type="text" id="userMessage"
+                    placeholder="<%= anyConfigured ? 'Type your question...' : 'AI coming soon - try it in the bootcamp!' %>"
+                    <% if (!anyConfigured) { %> disabled <% } %>
+                    >
+                    <button type="submit" class="btn btn-primary" <% if (!anyConfigured) { %> disabled <% } %>>
+                            Send
+                    </button>
+            </form>
+        </div>
+    </div>
+</section>
+
+<!-- AI Status -->
+<section class="ai-status section">
+    <div class="container">
+        <h2 class="section-title">AI Service Status</h2>
+        <div class="status-grid">
+            <div class="status-card <%= aiStatus.openai.configured ? 'configured' : '' %>">
+                <span class="status-icon">💬</span>
+                <h4>OpenAI ChatGPT</h4>
+                <span class="status-badge <%= aiStatus.openai.status %>">
+                    <%= aiStatus.openai.configured ? 'Ready' : 'Not Configured' %>
+                </span>
+            </div>
+
+            <div class="status-card <%= aiStatus.anthropic.configured ? 'configured' : '' %>">
+                <span class="status-icon">🧠</span>
+                <h4>Anthropic Claude</h4>
+                <span class="status-badge <%= aiStatus.anthropic.status %>">
+                    <%= aiStatus.anthropic.configured ? 'Ready' : 'Not Configured' %>
+                </span>
+            </div>
+
+            <div class="status-card <%= aiStatus.rovo.configured ? 'configured' : '' %>">
+                <span class="status-icon">🤖</span>
+                <h4>Atlassian Rovo</h4>
+                <span class="status-badge <%= aiStatus.rovo.status %>">
+                    <%= aiStatus.rovo.configured ? 'Ready' : 'Not Configured' %>
+                </span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Learn AI Integration -->
+<section class="ai-learn section">
+    <div class="container">
+        <div class="learn-card">
+            <h2>Learn AI Integration in the Bootcamp</h2>
+            <p>
+                In this bootcamp, you'll learn how to build AI-powered assistants
+                and integrate them with Jira and your DevOps workflows.
+            </p>
+            <div class="learn-topics">
+                <div class="topic-item">✅ OpenAI ChatGPT API integration</div>
+                <div class="topic-item">✅ Anthropic Claude API integration</div>
+                <div class="topic-item">✅ Atlassian Rovo & Intelligence</div>
+                <div class="topic-item">✅ AI-assisted Jira automation</div>
+                <div class="topic-item">✅ Prompt engineering basics</div>
+            </div>
+            <a href="/courses#rovo" class="btn btn-primary btn-lg">View AI Module</a>
+        </div>
+    </div>
+</section>
+
+<script>
+    // Chat form handling (placeholder)
+    document.getElementById('chatForm')?.addEventListener('submit', async function (e) {
+        e.preventDefault();
+        const input = document.getElementById('userMessage');
+        const message = input.value.trim();
+
+        if (!message) return;
+
+        // Add user message to chat
+        const messagesDiv = document.getElementById('chatMessages');
+        messagesDiv.innerHTML += `
+      <div class="message user">
+        <div class="message-content"><p>${escapeHtml(message)}</p></div>
+      </div>
+    `;
+
+        input.value = '';
+
+        try {
+            const response = await fetch('/ai/chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message })
+            });
+
+            const data = await response.json();
+
+            messagesDiv.innerHTML += `
+        <div class="message bot">
+          <div class="message-content"><p>${data.response}</p></div>
+        </div>
+      `;
+
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        } catch (error) {
+            console.error('Chat error:', error);
+        }
+    });
+
+    function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+</script>

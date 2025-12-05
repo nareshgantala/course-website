@@ -1,0 +1,139 @@
+<!--
+=============================================================================
+Tools Page
+=============================================================================
+SDLC Phase: Development - tool showcase with SDLC mapping
+Displays all tools covered with their role in the development lifecycle.
+=============================================================================
+-->
+
+<!-- Page Header -->
+<section class="page-header">
+    <div class="container">
+        <h1>Tools Covered</h1>
+        <p class="page-subtitle">
+            Master <%= tools.length %> essential tools across the entire SDLC
+        </p>
+    </div>
+</section>
+
+<!-- Tools by Category -->
+<section class="tools-section section">
+    <div class="container">
+        <% Object.keys(toolsByCategory).forEach(category=> { %>
+            <div class="tools-category">
+                <h2 class="category-title">
+                    <%= category %>
+                </h2>
+
+                <div class="tools-grid">
+                    <% toolsByCategory[category].forEach(tool=> { %>
+                        <div class="tool-card" id="<%= tool.id %>">
+                            <div class="tool-header">
+                                <span class="tool-icon">
+                                    <%= tool.icon %>
+                                </span>
+                                <div class="tool-phases">
+                                    <% tool.sdlcPhases.forEach(phase=> { %>
+                                        <span class="phase-tag">
+                                            <%= phase %>
+                                        </span>
+                                        <% }); %>
+                                </div>
+                            </div>
+
+                            <h3 class="tool-name">
+                                <%= tool.name %>
+                            </h3>
+                            <p class="tool-purpose">
+                                <%= tool.purpose %>
+                            </p>
+
+                            <div class="tool-sdlc-fit">
+                                <h4>How It Fits in SDLC:</h4>
+                                <p>
+                                    <%= tool.sdlcFit %>
+                                </p>
+                            </div>
+
+                            <div class="tool-footer">
+                                <a href="<%= tool.link %>" target="_blank" rel="noopener" class="tool-link">
+                                    Learn More →
+                                </a>
+                            </div>
+                        </div>
+                        <% }); %>
+                </div>
+            </div>
+            <% }); %>
+    </div>
+</section>
+
+<!-- SDLC Integration Visual -->
+<section class="sdlc-integrate section">
+    <div class="container">
+        <h2 class="section-title">Tools Across the SDLC</h2>
+        <p class="section-subtitle">See how each tool integrates into the software development lifecycle</p>
+
+        <div class="sdlc-matrix">
+            <div class="sdlc-row sdlc-header-row">
+                <div class="sdlc-cell sdlc-phase-header">SDLC Phase</div>
+                <div class="sdlc-cell">Tools</div>
+            </div>
+
+            <div class="sdlc-row">
+                <div class="sdlc-cell sdlc-phase">📝 Requirements & Planning</div>
+                <div class="sdlc-cell sdlc-tools">Jira Software, Rovo, ChatGPT, Claude</div>
+            </div>
+
+            <div class="sdlc-row">
+                <div class="sdlc-cell sdlc-phase">🎨 Design</div>
+                <div class="sdlc-cell sdlc-tools">Jira (documentation), Confluence</div>
+            </div>
+
+            <div class="sdlc-row">
+                <div class="sdlc-cell sdlc-phase">💻 Development</div>
+                <div class="sdlc-cell sdlc-tools">Jira, Bitbucket, ScriptRunner, Python</div>
+            </div>
+
+            <div class="sdlc-row">
+                <div class="sdlc-cell sdlc-phase">🧪 Testing & QA</div>
+                <div class="sdlc-cell sdlc-tools">Jira QA Tasks, Bitbucket Pipelines</div>
+            </div>
+
+            <div class="sdlc-row">
+                <div class="sdlc-cell sdlc-phase">🚀 Deployment</div>
+                <div class="sdlc-cell sdlc-tools">Bitbucket Pipelines, AWS ECS, Ansible</div>
+            </div>
+
+            <div class="sdlc-row">
+                <div class="sdlc-cell sdlc-phase">🔧 Operations & Support</div>
+                <div class="sdlc-cell sdlc-tools">JSM, CloudWatch, Statuspage, Rovo</div>
+            </div>
+
+            <div class="sdlc-row">
+                <div class="sdlc-cell sdlc-phase">📊 Reporting</div>
+                <div class="sdlc-cell sdlc-tools">eazyBI, Jira Dashboards, JQL</div>
+            </div>
+
+            <div class="sdlc-row">
+                <div class="sdlc-cell sdlc-phase">🔄 Automation</div>
+                <div class="sdlc-cell sdlc-tools">n8n, ScriptRunner, JMWE, Python</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section section">
+    <div class="container">
+        <div class="cta-card">
+            <h2>Master These Tools</h2>
+            <p>Learn all <%= tools.length %> tools in our comprehensive <%= config.course.duration %> bootcamp.</p>
+            <div class="cta-actions">
+                <a href="/contact" class="btn btn-primary btn-lg">Register Interest</a>
+                <a href="/schedule" class="btn btn-outline btn-lg">View Schedule</a>
+            </div>
+        </div>
+    </div>
+</section>

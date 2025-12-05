@@ -1,0 +1,94 @@
+<!--
+=============================================================================
+Registration Page
+=============================================================================
+SDLC Phase: Development - registration flow
+Simple registration interest page.
+=============================================================================
+-->
+
+<!-- Page Header -->
+<section class="page-header">
+    <div class="container">
+        <h1>Register Interest</h1>
+        <p class="page-subtitle">
+            Take the first step towards mastering Jira Cloud and DevOps
+        </p>
+    </div>
+</section>
+
+<!-- Registration Info -->
+<section class="register-section section">
+    <div class="container">
+        <div class="register-grid">
+            <div class="register-info">
+                <h2>
+                    <%= config.course.name %>
+                </h2>
+
+                <div class="course-details">
+                    <div class="detail-item">
+                        <span class="detail-icon">📅</span>
+                        <div>
+                            <strong>Duration</strong>
+                            <p>
+                                <%= config.course.duration %>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="detail-item">
+                        <span class="detail-icon">🕐</span>
+                        <div>
+                            <strong>Schedule</strong>
+                            <p>
+                                <%= config.course.schedule %>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="detail-item">
+                        <span class="detail-icon">🎯</span>
+                        <div>
+                            <strong>Target Audience</strong>
+                            <p>
+                                <%= config.course.audience %>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="detail-item">
+                        <span class="detail-icon">🎥</span>
+                        <div>
+                            <strong>Format</strong>
+                            <p>Live Interactive Sessions + Recordings</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="highlight-box">
+                    <h3>🚀 What You'll Learn</h3>
+                    <ul>
+                        <li>Jira Software Cloud Administration</li>
+                        <li>Jira Service Management (JSM)</li>
+                        <li>Bitbucket & CI/CD Pipelines</li>
+                        <li>AI Tools: Rovo, ChatGPT, Claude</li>
+                        <li>Python + Jira REST API</li>
+                        <li>AWS Basics & DevOps</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="register-cta">
+                <div class="cta-card">
+                    <h3>Ready to Join?</h3>
+                    <p>Fill out the contact form to register your interest for the upcoming batch.</p>
+                    <a href="/contact" class="btn btn-primary btn-lg btn-full">
+                        Go to Registration Form →
+                    </a>
+                    <p class="cta-note">Limited seats available for personalized attention</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

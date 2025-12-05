@@ -1,0 +1,120 @@
+<!--
+=============================================================================
+Contact Page
+=============================================================================
+SDLC Phase: Development - form implementation
+Contact form for prospective students.
+=============================================================================
+-->
+
+<!-- Page Header -->
+<section class="page-header">
+    <div class="container">
+        <h1>Contact Us</h1>
+        <p class="page-subtitle">
+            Interested in the bootcamp? Fill out the form and we'll get back to you.
+        </p>
+    </div>
+</section>
+
+<!-- Contact Form Section -->
+<section class="contact-section section">
+    <div class="container">
+        <div class="contact-grid">
+            <!-- Form -->
+            <div class="contact-form-container">
+                <h2>Register Your Interest</h2>
+
+                <% if (errors && errors.length> 0) { %>
+                    <div class="alert alert-error">
+                        <h4>Please fix the following errors:</h4>
+                        <ul>
+                            <% errors.forEach(error=> { %>
+                                <li>
+                                    <%= error %>
+                                </li>
+                                <% }); %>
+                        </ul>
+                    </div>
+                    <% } %>
+
+                        <form action="/contact" method="POST" class="contact-form">
+                            <div class="form-group">
+                                <label for="name">Full Name *</label>
+                                <input type="text" id="name" name="name" placeholder="Enter your full name"
+                                    value="<%= formData.name || '' %>" required minlength="2">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="email">Email Address *</label>
+                                <input type="email" id="email" name="email" placeholder="your.email@example.com"
+                                    value="<%= formData.email || '' %>" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="whatsapp">WhatsApp Number *</label>
+                                <input type="tel" id="whatsapp" name="whatsapp" placeholder="+91 9876543210"
+                                    value="<%= formData.whatsapp || '' %>" required pattern="[0-9+\-\s]{10,15}">
+                                <small class="form-hint">We'll use WhatsApp for bootcamp updates</small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="message">Message *</label>
+                                <textarea id="message" name="message" rows="5"
+                                    placeholder="Tell us about your background and what you hope to learn..." required
+                                    minlength="10"><%= formData.message || '' %></textarea>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary btn-lg btn-full">
+                                Submit Registration Interest
+                            </button>
+                        </form>
+            </div>
+
+            <!-- Contact Info -->
+            <div class="contact-info">
+                <div class="info-card">
+                    <h3>📅 Bootcamp Details</h3>
+                    <ul class="info-list">
+                        <li>
+                            <span class="info-label">Duration:</span>
+                            <span>
+                                <%= config.course.duration %>
+                            </span>
+                        </li>
+                        <li>
+                            <span class="info-label">Schedule:</span>
+                            <span>
+                                <%= config.course.schedule %>
+                            </span>
+                        </li>
+                        <li>
+                            <span class="info-label">Medium:</span>
+                            <span>Telugu</span>
+                        </li>
+                        <li>
+                            <span class="info-label">Format:</span>
+                            <span>Live Online Sessions</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="info-card">
+                    <h3>🎯 Who Should Join?</h3>
+                    <ul class="info-bullets">
+                        <li>IT beginners looking to enter Atlassian ecosystem</li>
+                        <li>Professionals wanting to become Jira administrators</li>
+                        <li>DevOps engineers improving their toolchain</li>
+                        <li>Anyone interested in AI-assisted automation</li>
+                    </ul>
+                </div>
+
+                <div class="info-card highlight">
+                    <h3>⚡ Why Act Now?</h3>
+                    <p>Limited seats available for personalized attention. Early registrations get priority for the next
+                        batch.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

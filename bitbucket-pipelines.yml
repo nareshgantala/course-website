@@ -1,0 +1,209 @@
+# =============================================================================
+# Bitbucket Pipelines - CI/CD Configuration
+# =============================================================================
+# SDLC Phase: Deployment - continuous integration and delivery
+#
+# This file defines the automated build and deployment pipeline.
+# In the bootcamp, you'll learn:
+# - How CI/CD automates the deployment process
+# - Docker image building and pushing to ECR
+# - ECS service deployment
+# - Pipeline security with repository variables
+# =============================================================================
+
+image: node:20
+
+# =============================================================================
+# Pipeline Definitions
+# =============================================================================
+definitions:
+  # ---------------------------------------------------------------------------
+  # Reusable Steps
+  # ---------------------------------------------------------------------------
+  steps:
+    - step: &install-and-test
+        name: Install Dependencies & Run Tests
+        caches:
+          - node
+        script:
+          - echo "📦 Installing dependencies..."
+          - npm ci
+          
+          - echo "🧪 Running linter..."
+          - npm run lint || echo "Linting warnings found (continuing)"
+          
+          - echo "🧪 Running tests..."
+          - npm test
+          
+          - echo "✅ Tests passed!"
+        artifacts:
+          - node_modules/**
+
+    - step: &build-docker
+        name: Build Docker Image
+        services:
+          - docker
+        script:
+          - echo "🐳 Building Docker image..."
+          
+          # Build image with version tag
+          - export IMAGE_TAG="${BITBUCKET_COMMIT:0:7}"
+          - docker build -t jira-bootcamp-web:${IMAGE_TAG} .
+          - docker tag jira-bootcamp-web:${IMAGE_TAG} jira-bootcamp-web:latest
+          
+          - echo "✅ Docker image built successfully!"
+          - docker images | grep jira-bootcamp-web
+
+    - step: &push-to-ecr
+        name: Push to AWS ECR
+        services:
+          - docker
+        script:
+          # =================================================================
+          # Prerequisites (set in Bitbucket Repository Variables):
+          # - AWS_ACCESS_KEY_ID
+          # - AWS_SECRET_ACCESS_KEY
+          # - AWS_DEFAULT_REGION
+          # - AWS_ACCOUNT_ID
+          # - ECR_REPOSITORY_NAME
+          # =================================================================
+          
+          - echo "🔐 Logging into AWS ECR..."
+          - pipe: atlassian/aws-ecr-push-image:2.2.0
+            variables:
+              AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
+              AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+              AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION
+              IMAGE_NAME: jira-bootcamp-web
+              TAGS: "${BITBUCKET_COMMIT:0:7} latest"
+          
+          - echo "✅ Image pushed to ECR!"
+
+    - step: &deploy-to-ecs
+        name: Deploy to AWS ECS
+        script:
+          # =================================================================
+          # Prerequisites (set in Bitbucket Repository Variables):
+          # - ECS_CLUSTER_NAME
+          # - ECS_SERVICE_NAME
+          # =================================================================
+          
+          - echo "🚀 Deploying to ECS..."
+          
+          # Install AWS CLI
+          - apt-get update && apt-get install -y awscli
+          
+          # Force new deployment (pulls latest image)
+          - aws ecs update-service 
+              --cluster $ECS_CLUSTER_NAME 
+              --service $ECS_SERVICE_NAME 
+              --force-new-deployment
+          
+          # Wait for deployment to complete
+          - echo "⏳ Waiting for deployment to stabilize..."
+          - aws ecs wait services-stable 
+              --cluster $ECS_CLUSTER_NAME 
+              --services $ECS_SERVICE_NAME
+          
+          - echo "✅ Deployment complete!"
+          
+          # =================================================================
+          # TODO: Add notification to Jira or Slack
+          # This could create a Jira issue or send a Slack message
+          # on successful deployment.
+          #
+          # Example Jira integration:
+          # - pipe: atlassian/jira-create-issue:1.0.0
+          #   variables:
+          #     PROJECT_KEY: 'BOOTCAMP'
+          #     ISSUE_TYPE: 'Deployment'
+          #     SUMMARY: 'Deployed version ${BITBUCKET_COMMIT:0:7}'
+          # =================================================================
+
+  # ---------------------------------------------------------------------------
+  # Services (Docker-in-Docker)
+  # ---------------------------------------------------------------------------
+  services:
+    docker:
+      memory: 2048
+
+# =============================================================================
+# Pipeline Branches
+# =============================================================================
+pipelines:
+  # ---------------------------------------------------------------------------
+  # Default pipeline for feature branches
+  # Runs tests but doesn't deploy
+  # ---------------------------------------------------------------------------
+  default:
+    - step: *install-and-test
+
+  # ---------------------------------------------------------------------------
+  # Branch-specific pipelines
+  # ---------------------------------------------------------------------------
+  branches:
+    # Development branch - build and test only
+    develop:
+      - step: *install-and-test
+      - step: *build-docker
+
+    # Main branch - full CI/CD pipeline
+    main:
+      - step: *install-and-test
+      - step: *build-docker
+      - step: *push-to-ecr
+      - step:
+          <<: *deploy-to-ecs
+          deployment: production
+          trigger: manual  # Require manual approval for production
+
+    # Master branch (alias for main)
+    master:
+      - step: *install-and-test
+      - step: *build-docker
+      - step: *push-to-ecr
+      - step:
+          <<: *deploy-to-ecs
+          deployment: production
+          trigger: manual
+
+  # ---------------------------------------------------------------------------
+  # Pull Request pipeline
+  # ---------------------------------------------------------------------------
+  pull-requests:
+    '**':
+      - step: *install-and-test
+      - step: *build-docker
+
+  # ---------------------------------------------------------------------------
+  # Custom pipelines (manually triggered)
+  # ---------------------------------------------------------------------------
+  custom:
+    # Full deployment pipeline (can be triggered manually)
+    deploy-to-production:
+      - step: *install-and-test
+      - step: *build-docker
+      - step: *push-to-ecr
+      - step:
+          <<: *deploy-to-ecs
+          deployment: production
+
+    # Docker build only (for testing Docker configuration)
+    build-docker-only:
+      - step: *build-docker
+
+# =============================================================================
+# Required Repository Variables (Set in Bitbucket Settings)
+# =============================================================================
+# AWS_ACCESS_KEY_ID       - AWS access key for ECR/ECS
+# AWS_SECRET_ACCESS_KEY   - AWS secret key (secured variable)
+# AWS_DEFAULT_REGION      - e.g., ap-south-1
+# AWS_ACCOUNT_ID          - AWS account ID for ECR URL
+# ECR_REPOSITORY_NAME     - ECR repository name
+# ECS_CLUSTER_NAME        - ECS cluster name
+# ECS_SERVICE_NAME        - ECS service name
+#
+# IMPORTANT: Never commit these values to the repository!
+# Set them in: Repository Settings > Repository variables
+# Mark sensitive values as "Secured" to hide them in logs
+# =============================================================================

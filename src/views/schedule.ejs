@@ -1,0 +1,138 @@
+<!--
+=============================================================================
+Schedule Page
+=============================================================================
+SDLC Phase: Development - timeline and schedule display
+Shows bootcamp timeline week by week.
+=============================================================================
+-->
+
+<!-- Page Header -->
+<section class="page-header">
+    <div class="container">
+        <h1>Bootcamp Schedule</h1>
+        <p class="page-subtitle">
+            <%= timing.totalWeeks %> weeks · <%= timing.totalSessions %> sessions · <%= timing.duration %>
+        </p>
+
+        <div class="schedule-timing">
+            <div class="timing-badge">
+                <span class="timing-icon">🕐</span>
+                <span>
+                    <%= timing.time %>
+                </span>
+            </div>
+            <div class="timing-badge">
+                <span class="timing-icon">📅</span>
+                <span>
+                    <%= timing.days %>
+                </span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Phase Overview -->
+<section class="phases-overview section-sm">
+    <div class="container">
+        <h2 class="section-title">Learning Phases</h2>
+        <div class="phases-timeline">
+            <% phases.forEach((phase, index)=> { %>
+                <div class="phase-item" style="--phase-color: <%= phase.color %>">
+                    <div class="phase-marker">
+                        <%= index + 1 %>
+                    </div>
+                    <div class="phase-content">
+                        <h4>
+                            <%= phase.name %>
+                        </h4>
+                        <p class="phase-weeks">Weeks <%= phase.weeks %>
+                        </p>
+                        <p>
+                            <%= phase.description %>
+                        </p>
+                    </div>
+                </div>
+                <% }); %>
+        </div>
+    </div>
+</section>
+
+<!-- Detailed Weekly Schedule -->
+<section class="weekly-schedule section">
+    <div class="container">
+        <h2 class="section-title">Week-by-Week Breakdown</h2>
+
+        <div class="weeks-container">
+            <% schedule.forEach(week=> { %>
+                <div class="week-card">
+                    <div class="week-header">
+                        <span class="week-number">Week <%= week.week %></span>
+                        <h3 class="week-theme">
+                            <%= week.theme %>
+                        </h3>
+                    </div>
+
+                    <div class="week-sessions">
+                        <% week.sessions.forEach(session=> { %>
+                            <div class="session-item">
+                                <span class="session-day">
+                                    <%= session.day %>
+                                </span>
+                                <span class="session-topic">
+                                    <%= session.topic %>
+                                </span>
+                                <span class="session-duration">
+                                    <%= session.duration %>
+                                </span>
+                            </div>
+                            <% }); %>
+                    </div>
+                </div>
+                <% }); %>
+        </div>
+    </div>
+</section>
+
+<!-- Important Notes -->
+<section class="notes-section section">
+    <div class="container">
+        <h2 class="section-title">Important Information</h2>
+        <div class="notes-grid">
+            <div class="note-card">
+                <span class="note-icon">🎥</span>
+                <h4>Live Sessions</h4>
+                <p>All sessions are live and interactive. Active participation is encouraged.</p>
+            </div>
+            <div class="note-card">
+                <span class="note-icon">📝</span>
+                <h4>Recordings Available</h4>
+                <p>Miss a session? Recordings will be available for review.</p>
+            </div>
+            <div class="note-card">
+                <span class="note-icon">💻</span>
+                <h4>Hands-on Labs</h4>
+                <p>Friday sessions include practical labs and exercises.</p>
+            </div>
+            <div class="note-card">
+                <span class="note-icon">🗣️</span>
+                <h4>Telugu Medium</h4>
+                <p>All sessions conducted in Telugu for better understanding.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section section">
+    <div class="container">
+        <div class="cta-card">
+            <h2>Start Your Learning Journey</h2>
+            <p>Secure your spot in the next batch of our comprehensive bootcamp.</p>
+            <div class="cta-actions">
+                <a href="/contact" class="btn btn-primary btn-lg">Register Interest</a>
+                <a href="/courses" class="btn btn-outline btn-lg">View Curriculum</a>
+            </div>
+        </div>
+    </div>
+</section>

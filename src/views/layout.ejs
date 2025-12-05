@@ -1,0 +1,50 @@
+<!--
+=============================================================================
+Main Layout Template
+=============================================================================
+SDLC Phase: Development - UI architecture
+This is the base template that all pages extend.
+EJS (Embedded JavaScript) is a simple templating language.
+=============================================================================
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- SEO Meta Tags -->
+  <title><%= typeof title !== 'undefined' ? title + ' | ' : '' %><%= config.course.shortName %></title>
+  <meta name="description" content="<%= config.course.name %> - <%= config.course.duration %> intensive bootcamp for Telugu-speaking IT professionals">
+  <meta name="keywords" content="Jira, Atlassian, DevOps, Cloud, Bootcamp, Training, Telugu">
+  <meta name="author" content="<%= config.course.shortName %>">
+  
+  <!-- Open Graph / Social Media -->
+  <meta property="og:title" content="<%= config.course.name %>">
+  <meta property="og:description" content="Master Jira Cloud, DevOps, and AI-assisted automation in this <%= config.course.duration %> live bootcamp">
+  <meta property="og:type" content="website">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Styles -->
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <%- include('partials/header') %>
+  
+  <main class="main-content">
+    <%- body %>
+  </main>
+  
+  <%- include('partials/footer') %>
+  
+  <!-- Scripts -->
+  <script src="/js/main.js"></script>
+</body>
+</html>

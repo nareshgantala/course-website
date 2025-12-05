@@ -1,0 +1,64 @@
+# =============================================================================
+# AI Assisted Jira Cloud Bootcamp - Git Ignore
+# =============================================================================
+# This file tells Git which files/folders to ignore in version control.
+# SDLC Phase: Development - proper version control hygiene
+# =============================================================================
+
+# Dependencies
+# ------------
+# node_modules can be huge (100MB+). Always install fresh with `npm install`
+node_modules/
+
+# Environment variables
+# ---------------------
+# NEVER commit secrets! .env contains API keys, passwords, etc.
+.env
+.env.local
+.env.*.local
+
+# Logs
+# ----
+# Log files are generated at runtime and shouldn't be versioned
+logs/
+*.log
+npm-debug.log*
+
+# Testing
+# -------
+# Coverage reports are generated dynamically
+coverage/
+.nyc_output/
+
+# Build outputs
+# -------------
+dist/
+build/
+
+# IDE and Editor files
+# --------------------
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Docker
+# ------
+# Don't commit local Docker override files
+docker-compose.override.yml
+
+# Terraform
+# ---------
+# State files contain sensitive infrastructure data
+*.tfstate
+*.tfstate.*
+.terraform/
+.terraform.lock.hcl
+
+# Temporary files
+# ---------------
+tmp/
+temp/
+*.tmp

@@ -1,0 +1,48 @@
+<!--
+=============================================================================
+Header Partial
+=============================================================================
+SDLC Phase: Development - reusable UI components
+This header appears on every page.
+Navigation highlights the current page using currentPath variable.
+=============================================================================
+-->
+<header class="header">
+    <div class="container">
+        <nav class="nav">
+            <a href="/" class="logo">
+                <span class="logo-icon">🎓</span>
+                <span class="logo-text">Jira Cloud Bootcamp</span>
+            </a>
+
+            <button class="mobile-menu-btn" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <ul class="nav-links">
+                <li>
+                    <a href="/" class="<%= currentPath === '/' ? 'active' : '' %>">Home</a>
+                </li>
+                <li>
+                    <a href="/courses" class="<%= currentPath === '/courses' ? 'active' : '' %>">Courses</a>
+                </li>
+                <li>
+                    <a href="/schedule" class="<%= currentPath === '/schedule' ? 'active' : '' %>">Schedule</a>
+                </li>
+                <li>
+                    <a href="/tools" class="<%= currentPath === '/tools' ? 'active' : '' %>">Tools</a>
+                </li>
+                <li>
+                    <a href="/ai" class="<%= currentPath === '/ai' ? 'active' : '' %>">
+                        <span class="ai-badge">AI</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/contact" class="btn btn-primary nav-cta">Contact</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</header>

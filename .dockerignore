@@ -1,0 +1,62 @@
+# =============================================================================
+# Docker Ignore File
+# =============================================================================
+# This file tells Docker which files/folders to exclude from the build context.
+# This reduces:
+# - Build time (less data to copy)
+# - Image size (no unnecessary files)
+# - Security risk (no secrets in image)
+# =============================================================================
+
+# Dependencies (will be installed fresh in container)
+node_modules
+npm-debug.log
+
+# Git
+.git
+.gitignore
+
+# IDE and editor files
+.idea
+.vscode
+*.swp
+*.swo
+
+# Environment files (NEVER include secrets in Docker images!)
+.env
+.env.*
+
+# Testing
+coverage
+.nyc_output
+
+# Documentation (not needed in production container)
+*.md
+!README.md
+
+# Build tools
+Dockerfile*
+docker-compose*
+.dockerignore
+
+# CI/CD
+bitbucket-pipelines.yml
+
+# Infrastructure
+infrastructure/
+
+# Testing
+tests/
+jest.config.js
+
+# Logs
+logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+tmp/
+temp/

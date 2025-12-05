@@ -1,0 +1,148 @@
+<!--
+=============================================================================
+Home Page
+=============================================================================
+SDLC Phase: Development - landing page implementation
+This is the main entry point for prospective students.
+Features: hero section, course highlights, call-to-action.
+=============================================================================
+-->
+
+<!-- Hero Section -->
+<section class="hero">
+    <div class="hero-background">
+        <div class="hero-gradient"></div>
+    </div>
+    <div class="container">
+        <div class="hero-content">
+            <div class="hero-badge">🎯 Telugu Medium | Live Sessions</div>
+            <h1 class="hero-title">
+                AI Assisted<br>
+                <span class="gradient-text">Jira Cloud</span><br>
+                Mastery Bootcamp
+            </h1>
+            <p class="hero-subtitle">
+                <%= config.course.duration %> intensive program covering Jira Software, JSM,
+                    Bitbucket, CI/CD, AWS, and AI-powered automation tools.
+            </p>
+            <div class="hero-cta">
+                <a href="/register" class="btn btn-primary btn-lg">
+                    Register Interest <span>→</span>
+                </a>
+                <a href="/courses" class="btn btn-outline btn-lg">
+                    View Curriculum
+                </a>
+            </div>
+            <div class="hero-meta">
+                <div class="meta-item">
+                    <span class="meta-icon">📅</span>
+                    <span>
+                        <%= config.course.schedule %>
+                    </span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-icon">⏱️</span>
+                    <span>90 min daily sessions</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="hero-visual">
+            <!-- 
+        Banner Image
+        Option 1: Local image from /public/images
+        Option 2: S3 URL (configure in environment)
+      -->
+            <div class="banner-container">
+                <img src="<%= bannerUrl %>" alt="AI Powered Jira Boot Camp" class="hero-banner"
+                    onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <!-- Fallback if image not found -->
+                <div class="banner-placeholder">
+                    <div class="placeholder-content">
+                        <span class="placeholder-icon">🚀</span>
+                        <h3>Jira Cloud + AI</h3>
+                        <p>Bootcamp Banner</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Highlights Section -->
+<section class="highlights section">
+    <div class="container">
+        <h2 class="section-title">Why This Bootcamp?</h2>
+        <div class="highlights-grid">
+            <% highlights.forEach(highlight=> { %>
+                <div class="highlight-card">
+                    <div class="highlight-icon">
+                        <%= highlight.icon %>
+                    </div>
+                    <h3>
+                        <%= highlight.title %>
+                    </h3>
+                    <p>
+                        <%= highlight.description %>
+                    </p>
+                </div>
+                <% }); %>
+        </div>
+    </div>
+</section>
+
+<!-- SDLC Overview Section -->
+<section class="sdlc-section section">
+    <div class="container">
+        <h2 class="section-title">Learn the Complete SDLC</h2>
+        <p class="section-subtitle">Master tools for every phase of software development</p>
+
+        <div class="sdlc-flow">
+            <div class="sdlc-phase">
+                <div class="phase-icon">📝</div>
+                <h4>Planning</h4>
+                <p>Jira, Rovo, ChatGPT</p>
+            </div>
+            <div class="sdlc-arrow">→</div>
+            <div class="sdlc-phase">
+                <div class="phase-icon">💻</div>
+                <h4>Development</h4>
+                <p>Jira, Bitbucket</p>
+            </div>
+            <div class="sdlc-arrow">→</div>
+            <div class="sdlc-phase">
+                <div class="phase-icon">🧪</div>
+                <h4>Testing</h4>
+                <p>Jira QA, Pipelines</p>
+            </div>
+            <div class="sdlc-arrow">→</div>
+            <div class="sdlc-phase">
+                <div class="phase-icon">🚀</div>
+                <h4>Deployment</h4>
+                <p>CI/CD, AWS ECS</p>
+            </div>
+            <div class="sdlc-arrow">→</div>
+            <div class="sdlc-phase">
+                <div class="phase-icon">🔧</div>
+                <h4>Operations</h4>
+                <p>JSM, CloudWatch</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section section">
+    <div class="container">
+        <div class="cta-card">
+            <div class="cta-content">
+                <h2>Ready to Start Your Journey?</h2>
+                <p>Join our next batch and master Jira Cloud administration and automation.</p>
+            </div>
+            <div class="cta-actions">
+                <a href="/contact" class="btn btn-primary btn-lg">Register Interest</a>
+                <a href="/schedule" class="btn btn-outline btn-lg">View Schedule</a>
+            </div>
+        </div>
+    </div>
+</section>
