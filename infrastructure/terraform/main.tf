@@ -56,15 +56,21 @@ provider "aws" {
 # =============================================================================
 data "aws_caller_identity" "current" {}
 
-data "aws_vpc" "default" {
-  default = true
+data "aws_vpc" "selected" {
+  tags = {
+    "Name" = "demo_vpc"
+  }
 }
 
-data "aws_subnets" "default" {
+data "aws_subnet" "selected" {
   filter {
-    name   = "vpc-id"
-    values = [data.aws_vpc.default.id]
+    name   = "tag:Name"
+    values = [demo_public_subnet_0]
   }
+}
+
+data "aws_ecr_repository" "service" {
+  name = "jira-bootcamp-web"
 }
 
 # =============================================================================
@@ -155,7 +161,36 @@ resource "aws_iam_role_policy" "ecs_task_s3" {
 resource "aws_security_group" "ecs_tasks" {
   name        = "${var.app_name}-ecs-tasks-sg"
   description = "Security group for ECS tasks"
-  vpc_id      = data.aws_vpc.default.id
+  vpc_id      = data.aws_vpc.selected.id
+  
+  ingress {
+    description = "HTTP from anywhere"
+    from_port   = 3000
+    to_port     = 3000
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  
+  egress {
+    description = "Allow all outbound"
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  
+  tags = {
+    Name = "${var.app_name}-ecs-sg"
+  }
+}
+
+# =============================================================================
+# Security Group for ECS Tasks
+# =============================================================================
+resource "aws_security_group" "ecs_tasks" {
+  name        = "${var.app_name}-ecs-tasks-sg"
+  description = "Security group for ECS tasks"
+  vpc_id      = data.aws_vpc.selected.id
   
   ingress {
     description = "HTTP from anywhere"
@@ -271,7 +306,7 @@ resource "aws_ecs_service" "main" {
   health_check_grace_period_seconds  = 60
   
   network_configuration {
-    subnets          = data.aws_subnets.default.ids
+    subnets          = [data.aws_subnet.selected.id]
     security_groups  = [aws_security_group.ecs_tasks.id]
     assign_public_ip = true  # Required for Fargate in public subnets
   }
@@ -312,9 +347,7 @@ resource "aws_ecs_service" "main" {
 #   }
 # }
 
-data "aws_ecr_repository" "service" {
-  name = "jira-bootcamp-web"
-}
+
 
 
 # Lifecycle policy to keep only recent images
