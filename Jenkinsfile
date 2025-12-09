@@ -25,7 +25,7 @@ pipeline {
     // =========================================================================
     // Change these values to match your AWS setup
     environment {
-        AWS_REGION         = 'ap-south-1'
+        AWS_REGION         = 'us-east-1'
         ECR_REPO_NAME      = 'jira-bootcamp-web'
         APP_NAME           = 'jira-bootcamp-web'
         TERRAFORM_DIR      = 'infrastructure/terraform'
