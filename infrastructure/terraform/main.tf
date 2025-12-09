@@ -301,18 +301,18 @@ resource "aws_ecs_service" "main" {
 # =============================================================================
 # ECR Repository (if not exists)
 # =============================================================================
-# resource "aws_ecr_repository" "app" {
-#   name                 = var.ecr_repository_name
-#   image_tag_mutability = "MUTABLE"
+resource "aws_ecr_repository" "app" {
+  name                 = var.ecr_repository_name
+  image_tag_mutability = "MUTABLE"
   
-#   image_scanning_configuration {
-#     scan_on_push = true
-#   }
+  image_scanning_configuration {
+    scan_on_push = true
+  }
   
-#   tags = {
-#     Name = "${var.app_name}-ecr"
-#   }
-# }
+  tags = {
+    Name = "${var.app_name}-ecr"
+  }
+}
 
 # Lifecycle policy to keep only recent images
 resource "aws_ecr_lifecycle_policy" "app" {
