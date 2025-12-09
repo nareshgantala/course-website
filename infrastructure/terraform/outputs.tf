@@ -17,10 +17,10 @@ output "ecs_service_name" {
   value       = aws_ecs_service.main.name
 }
 
-output "ecr_repository_url" {
-  description = "URL of the ECR repository"
-  value       = aws_ecr_repository.app.repository_url
-}
+# output "ecr_repository_url" {
+#   description = "URL of the ECR repository"
+#   value       = aws_ecr_repository.app.repository_url
+# }
 
 output "cloudwatch_log_group" {
   description = "Name of the CloudWatch log group"
@@ -50,7 +50,7 @@ output "deployment_info" {
   value = {
     cluster_name    = aws_ecs_cluster.main.name
     service_name    = aws_ecs_service.main.name
-    repository_url  = aws_ecr_repository.app.repository_url
+    # repository_url  = aws_ecr_repository.app.repository_url
     region          = var.aws_region
   }
 }
