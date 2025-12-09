@@ -65,7 +65,9 @@ app.use(helmet({
             styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
             fontSrc: ["'self'", "https://fonts.gstatic.com"],
             imgSrc: ["'self'", "data:", "https:"],
-            scriptSrc: ["'self'", "'unsafe-inline'"]
+            scriptSrc: ["'self'", "'unsafe-inline'"],
+            // Remove upgrade-insecure-requests since we're not using HTTPS
+            upgradeInsecureRequests: null
         }
     }
 }));
