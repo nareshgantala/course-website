@@ -146,7 +146,7 @@ pipeline {
                     terraform plan -out=tfplan -input=false
 
                     echo "✅ terraform apply"
-                    terraform apply -auto-approve tfplan
+                    terraform ${deployment_type} -auto-approve tfplan
                 '''
                 }
                 }
