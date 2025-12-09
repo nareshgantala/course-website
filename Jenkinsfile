@@ -12,6 +12,10 @@ pipeline {
     // Run on any available Jenkins agent
     agent any
 
+    tools {
+        nodejs "Node_21"
+    }
+
     // =========================================================================
     // Environment Variables
     // =========================================================================
@@ -107,16 +111,40 @@ pipeline {
                 // Use same AWS credentials for Terraform
                 withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', 
                                   credentialsId: 'aws-credentials']]) {
-                    dir("${TERRAFORM_DIR}") {
-                        // Initialize Terraform (downloads providers)
-                        sh 'terraform init'
-                        
-                        // Show what changes will be made (optional but helpful)
-                        sh 'terraform plan -out=tfplan'
-                        
-                        // Apply the changes
-                        sh 'terraform apply -auto-approve tfplan'
-                    }
+                    script {
+                // Simple, self-contained Terraform installer in workspace
+                    sh '''
+                    set -e
+
+                    TF_VERSION="1.9.8"
+                    TF_DIR="${WORKSPACE}/.tf-bin"
+
+                    mkdir -p "$TF_DIR"
+
+                    if [ ! -x "$TF_DIR/terraform" ]; then
+                    echo "📥 Downloading Terraform ${TF_VERSION}..."
+                    curl -fsSL "https://releases.hashicorp.com/terraform/${TF_VERSION}/terraform_${TF_VERSION}_linux_amd64.zip" -o tf.zip
+                    unzip -o tf.zip -d "$TF_DIR"
+                    rm tf.zip
+                    chmod +x "$TF_DIR/terraform"
+                    fi
+
+                    export PATH="$TF_DIR:$PATH"
+                    cd "${TERRAFORM_DIR}"
+
+                    echo "Terraform version:"
+                    terraform version
+
+                    echo "🌱 terraform init"
+                    terraform init -input=false
+
+                    echo "📝 terraform plan"
+                    terraform plan -out=tfplan -input=false
+
+                    echo "✅ terraform apply"
+                    terraform apply -auto-approve tfplan
+                '''
+                }
                 }
             }
         }
