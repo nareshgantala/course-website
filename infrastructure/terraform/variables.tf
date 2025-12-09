@@ -61,3 +61,9 @@ variable "banner_source" {
   type        = string
   default     = "local"
 }
+
+variable "image_tag" {
+  description = "Docker image tag to deploy (e.g., Jenkins build number or 'latest')"
+  type        = string
+  default     = "latest"
+}

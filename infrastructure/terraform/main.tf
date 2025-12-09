@@ -244,7 +244,7 @@ resource "aws_ecs_task_definition" "app" {
   container_definitions = jsonencode([
     {
       name      = var.app_name
-      image     = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${var.aws_region}.amazonaws.com/${var.ecr_repository_name}:latest"
+      image     = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${var.aws_region}.amazonaws.com/${var.ecr_repository_name}:${var.image_tag}"
       essential = true
       
       portMappings = [
@@ -289,7 +289,8 @@ resource "aws_ecs_task_definition" "app" {
   ])
   
   tags = {
-    Name = "${var.app_name}-task-definition"
+    Name     = "${var.app_name}-task-definition"
+    ImageTag = var.image_tag
   }
 }
 
@@ -304,7 +305,6 @@ resource "aws_ecs_service" "main" {
   launch_type                        = "FARGATE"
   platform_version                   = "LATEST"
   health_check_grace_period_seconds  = 60
-  force_new_deployment               = true
   
   network_configuration {
     subnets          = [data.aws_subnet.selected.id]

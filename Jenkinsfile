@@ -143,10 +143,10 @@ pipeline {
                     terraform init -input=false
 
                     echo "📝 terraform plan"
-                    terraform plan -out=tfplan -input=false
+                    terraform plan -out=tfplan -input=false -var="image_tag=${BUILD_NUMBER}"
 
                     echo "✅ terraform apply"
-                    terraform ${deployment_type} -auto-approve 
+                    terraform ${deployment_type} -auto-approve -var="image_tag=${BUILD_NUMBER}" 
                 '''
                 }
                 }
