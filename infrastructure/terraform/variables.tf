@@ -17,7 +17,7 @@ variable "environment" {
 variable "app_name" {
   description = "Name of the application"
   type        = string
-  default     = "jira-bootcamp-web"
+  default     = "jira-bootcamp-web-2"
 }
 
 variable "ecr_repository_name" {
