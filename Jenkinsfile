@@ -11,7 +11,11 @@
 pipeline {
     // Run on any available Jenkins agent
     agent any
-
+            parameters {
+            
+            choice(name: 'deployment_type', choices: ['apply', 'destroy'], description: 'Select the deployment type.')
+            
+        }
     tools {
         nodejs "Node_21"
     }
