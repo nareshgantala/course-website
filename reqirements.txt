@@ -1,0 +1,4 @@
+Inside Jenkins container
+1.Aws cli
+2.Docker
+3.
