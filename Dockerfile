@@ -59,6 +59,12 @@ ENV NODE_ENV=production
 WORKDIR /app
 
 # =============================================================================
+# Install curl for health checks
+# ECS task definition uses curl for health check endpoint
+# =============================================================================
+RUN apk add --no-cache curl
+
+# =============================================================================
 # Security Best Practice: Run as non-root user
 # This limits potential damage if the container is compromised
 # =============================================================================
