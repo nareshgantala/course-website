@@ -304,6 +304,7 @@ resource "aws_ecs_service" "main" {
   launch_type                        = "FARGATE"
   platform_version                   = "LATEST"
   health_check_grace_period_seconds  = 60
+  force_new_deployment               = true
   
   network_configuration {
     subnets          = [data.aws_subnet.selected.id]
