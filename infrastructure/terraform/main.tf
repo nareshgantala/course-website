@@ -30,7 +30,7 @@ terraform {
   # Backend configuration for remote state storage
   # TODO: Configure your backend for team collaboration
   backend "s3" {
-    bucket         = "nareshcloud-jenkins-cicd-setup-terraform-state "
+    bucket         = "nareshcloud-jenkins-cicd-setup-terraform-state"
     key            = "jira-bootcamp/terraform.tfstate"
     region         = "us-east-1"
   }
